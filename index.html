@@ -976,41 +976,74 @@
       applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
-    // ===== FORMS =====
-    function hookForm(formId, emailId, msgId){
-      const form = document.getElementById(formId);
-      const email = document.getElementById(emailId);
-      const msg = document.getElementById(msgId);
+    // ===== WAITLIST REAL (Google Form) — FIX ROBUSTO =====
+// Incolla qui il tuo link PRECOMPILATO (quello con entry.XXXX=qualcosa)
+const PREFILL_URL = "https://forms.gle/HGTs7HR5vxUnCssh7";
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const val = (email.value || '').trim();
-        if(!val){
-          msg.textContent = 'Inserisci una email valida.';
-          return;
-        }
-        msg.textContent = 'Perfetto. Sei dentro ✅ Ti scriveremo appena apriamo la beta.';
-        email.value = '';
-      });
+// Estrae e sostituisce il valore dopo "entry.xxxxx="
+function buildPrefillUrl(email){
+  if(!PREFILL_URL || !PREFILL_URL.includes("entry.")){
+    throw new Error("PREFILL_URL non valido: deve contenere entry.xxxxx");
+  }
+  // sostituisce il valore dopo il primo "=" con la mail
+  return PREFILL_URL.replace(/=([^&]*)/, "=" + encodeURIComponent(email));
+}
+
+function sendToGoogleForm(email){
+  const url = buildPrefillUrl(email);
+
+  // 1) Prova via fetch (silenzioso)
+  try { fetch(url, { mode: "no-cors" }); } catch (e) {}
+
+  // 2) Fallback super affidabile (se fetch è bloccato)
+  // carica in un iframe invisibile così non cambia pagina
+  const ifr = document.createElement("iframe");
+  ifr.style.display = "none";
+  ifr.src = url;
+  document.body.appendChild(ifr);
+
+  // pulizia dopo un po’
+  setTimeout(() => { try { ifr.remove(); } catch(e) {} }, 4000);
+}
+
+function hookFormSafe(formId, emailId, msgId){
+  const form = document.getElementById(formId);
+  const emailEl = document.getElementById(emailId);
+  const msg = document.getElementById(msgId);
+
+  if(!form || !emailEl || !msg){
+    console.warn("Waitlist: elementi non trovati", { formId, emailId, msgId, form, emailEl, msg });
+    return;
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const val = (emailEl.value || "").trim();
+    if(!val){
+      msg.textContent = "Inserisci una email valida.";
+      return;
     }
-    hookForm('waitlistForm', 'email', 'formMsg');
-    hookForm('waitlistForm2', 'email2', 'formMsg2');
 
-    // ===== ACTIVE NAV =====
-    const navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
-    const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    // feedback immediato (così “succede qualcosa” sempre)
+    msg.textContent = "Perfetto. Ti stiamo registrando… ✅";
 
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          navLinks.forEach(a => a.classList.remove('active'));
-          const id = '#' + entry.target.id;
-          const active = navLinks.find(a => a.getAttribute('href') === id);
-          if(active) active.classList.add('active');
-        }
-      });
-    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0.01 });
-    sections.forEach(s => obs.observe(s));
+    try{
+      sendToGoogleForm(val);
+      msg.textContent = "Perfetto. Sei dentro ✅ Ti scriveremo appena apriamo la beta.";
+      emailEl.value = "";
+    } catch(err){
+      console.error(err);
+      msg.textContent = "C’è stato un problema con il link del modulo. Controlla PREFILL_URL.";
+    }
+  });
+}
+
+// Assicura che il DOM sia caricato (evita null)
+document.addEventListener("DOMContentLoaded", () => {
+  hookFormSafe("waitlistForm", "email", "formMsg");
+  hookFormSafe("waitlistForm2", "email2", "formMsg2");
+});
 
     // ===== REVEAL =====
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1091,3 +1124,4 @@
   </script>
 </body>
 </html>
+
