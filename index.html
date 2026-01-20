@@ -24,7 +24,6 @@
       --lift:-8px; --press:0.985;
       --mx:0px; --my:0px;
     }
-
     [data-theme="light"]{
       --bg0:#eef2ff; --bg1:#e9f7ff; --bg2:#ffffff;
       --card:rgba(255,255,255,0.86);
@@ -59,9 +58,7 @@
     }
     .hero{padding-top:76px; text-align:center;}
 
-    /* =========================
-       COMPLEX BACKGROUND
-    ========================== */
+    /* ===== Background (optimized) ===== */
     .bgWrap{position:fixed; inset:0; z-index:-5; pointer-events:none; overflow:hidden;}
     .mesh{
       position:absolute; inset:-20%;
@@ -75,6 +72,7 @@
       opacity:0.95;
       transform: translate(calc(var(--mx) * 0.6), calc(var(--my) * 0.6)) scale(1.06);
       animation: meshShift 18s ease-in-out infinite;
+      will-change: transform;
     }
     @keyframes meshShift{
       0%{transform: translate(calc(var(--mx) * 0.45), calc(var(--my) * 0.45)) scale(1.03) rotate(0deg);}
@@ -87,6 +85,7 @@
       opacity:0.75;
       transform: translate3d(0,0,0);
       animation: orbFloat 22s ease-in-out infinite;
+      will-change: transform;
     }
     .orb.one{
       left:-320px; top:-360px;
@@ -129,9 +128,7 @@
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
     }
 
-    /* =========================
-       NAV
-    ========================== */
+    /* ===== NAV ===== */
     header{
       position:sticky; top:0; z-index:1000;
       backdrop-filter:blur(14px);
@@ -206,9 +203,7 @@
     .themeBtn:hover{transform:translateY(-1px);}
     .themeBtn:focus-visible{box-shadow:0 0 0 4px var(--ring);}
 
-    /* =========================
-       TYPOGRAPHY + CARDS
-    ========================== */
+    /* ===== Typography / Cards ===== */
     .kicker{
       display:inline-block;
       margin-top:12px;
@@ -261,8 +256,6 @@
       transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
       will-change:transform;
     }
-
-    /* Strategic hover */
     .hoverFx:hover{
       transform: translateY(var(--lift));
       box-shadow: 0 30px 90px var(--shadow);
@@ -283,11 +276,8 @@
       mix-blend-mode:screen;
     }
     .hoverFx:hover::after{opacity:1;}
-    .card:focus-within{box-shadow:0 0 0 4px var(--ring), 0 22px 70px var(--shadow);}
 
-    /* =========================
-       HERO GRID
-    ========================== */
+    /* ===== Hero grid ===== */
     .heroRow{
       margin-top:34px;
       display:grid;
@@ -296,12 +286,10 @@
       align-items:start;
       text-align:left;
     }
-
-    /* Beta card centered */
     .betaCard{
       padding:18px 18px 16px;
       max-width:560px;
-      justify-self:center;
+      justify-self:center; /* centered */
       align-self:start;
     }
     .betaCard h3{margin:0 0 8px; font-size:17px; font-weight:990; letter-spacing:-0.2px;}
@@ -318,6 +306,10 @@
       font-weight:750;
       font-size:14px;
       outline:none;
+    }
+    .emailBox input[type="text"]{ width:320px; }
+    @media (max-width: 980px){
+      .emailBox input[type="text"]{ width:min(520px, 100%); }
     }
     .emailBox input::placeholder{color: color-mix(in srgb, var(--muted2) 78%, transparent);}
     .emailBox input:focus-visible{box-shadow:0 0 0 4px var(--ring);}
@@ -362,7 +354,7 @@
     .spark:nth-child(2){animation-delay:.35s} .spark:nth-child(3){animation-delay:.7s}
     @keyframes twinkle{0%,100%{opacity:.35;transform:scale(.9)}50%{opacity:.9;transform:scale(1.08)}}
 
-    /* Section blocks */
+    /* Sections */
     .sectionTitle{text-align:center; font-size:clamp(26px,3vw,38px); font-weight:990; margin:0; letter-spacing:-0.4px;}
     .sectionLead{text-align:center; max-width:920px; margin:14px auto 0; color:var(--muted); line-height:1.72; font-weight:770;}
     .grid3{margin-top:34px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
@@ -413,7 +405,6 @@
       .betaCard{max-width:100%}
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       html{scroll-behavior:auto}
       .orb,.mesh,.spark,.mascot,.mascotGlow{animation:none!important}
@@ -491,12 +482,11 @@
 
         <form class="emailBox" id="waitlistForm">
           <input id="email" type="email" placeholder="La tua email" required />
+          <input id="usecase" type="text" placeholder="In quale situazione ti serve Aegis? (opzionale)" />
           <button class="btn" type="submit">Unisciti alla lista</button>
         </form>
 
-        <div class="subNote" id="formMsg">
-          Privacy-first: useremo la tua email solo per inviarti l’invito alla beta.
-        </div>
+        <div class="subNote" id="formMsg">Privacy-first: useremo la tua email solo per inviarti l’invito alla beta.</div>
       </div>
 
       <div class="card mascotWrap reveal hoverFx" data-tilt>
@@ -568,7 +558,7 @@
     </p>
 
     <div class="split">
-      <div class="card reveal hoverFx" data-tilt style="padding:22px;">
+      <div class="card reveal hoverFx" data-tilt>
         <div class="quote">“Niente manipolazione. Solo chiarezza.”</div>
         <p class="qText">
           Il nostro principio è semplice: la tecnologia deve aiutarti a vedere meglio,
@@ -577,7 +567,7 @@
         <div class="qBy">— Design Philosophy</div>
       </div>
 
-      <div class="card reveal hoverFx" data-tilt style="padding:22px;">
+      <div class="card reveal hoverFx" data-tilt>
         <div class="quote">Privacy-first</div>
         <p class="qText">
           La lista d’attesa serve solo per invitarti alla beta.
@@ -643,7 +633,7 @@
     <div style="margin-top:26px;">
       <details class="reveal">
         <summary>Aegis – GuardianAI salva i miei dati o i miei link?</summary>
-        <p>No: puntiamo a minimizzare la raccolta dati. Per la beta raccogliamo solo l’email per invitarti.</p>
+        <p>No: puntiamo a minimizzare la raccolta dati. Per la beta raccogliamo solo l’email e, se vuoi, una breve frase.</p>
       </details>
       <details class="reveal">
         <summary>È adatto anche a famiglie e ragazzi?</summary>
@@ -672,6 +662,7 @@
 
         <form class="emailBox" id="waitlistForm2" style="justify-content:flex-start;">
           <input id="email2" type="email" placeholder="La tua email" required />
+          <input id="usecase2" type="text" placeholder="In quale situazione ti serve Aegis? (opzionale)" />
           <button class="btn" type="submit">Richiedi accesso</button>
         </form>
 
@@ -692,15 +683,13 @@
   </footer>
 
   <script>
-    // ===== CONFIG FORM =====
-    // Il tuo link attuale (apre il form) — funziona sempre:
+    // ===== FORM CONFIG (YOURS) =====
     const FORM_PUBLIC_URL = "https://docs.google.com/forms/d/e/1FAIpQLSemWBEYm-n6oSh0CGsA7HALHf2O86HNl29uxxemn_NBoycttQ/viewform?usp=dialog";
 
-    // AUTOMATICO: qui serve il link PRECOMPILATO con entry.XXXX (non lo abbiamo ancora)
-    // Quando lo avrai, lo incolli qui e diventa invio in background (senza aprire form)
-    const PREFILL_FORMRESPONSE_URL = ""; // const PREFILL_FORMRESPONSE_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSemWBEYm-n6oSh0CGsA7HALHf2O86HNl29uxxemn_NBoycttQ/formResponse?usp=pp_url&entry.1137067838=test.test@gmail.com&entry.1887625619=mi+protegga+dai+link+che+mi+rubano+soldi+";
-
+    // ✅ Automatic submit endpoint (email + usecase)
+    // We will replace BOTH the email entry and the usecase entry at runtime.
+    const PREFILL_FORMRESPONSE_URL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSemWBEYm-n6oSh0CGsA7HALHf2O86HNl29uxxemn_NBoycttQ/formResponse?usp=pp_url&entry.1137067838=test.test@gmail.com&entry.1887625619=mi+protegga+dai+link+che+mi+rubano+soldi+";
 
     // ===== THEME =====
     const body = document.body;
@@ -722,7 +711,7 @@
       applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
-    // ===== BACKGROUND PARALLAX =====
+    // ===== BACKGROUND PARALLAX (throttled) =====
     let raf = null;
     window.addEventListener('mousemove', (e) => {
       if(raf) return;
@@ -735,7 +724,7 @@
       });
     });
 
-    // ===== TILT =====
+    // ===== TILT (kept light) =====
     document.querySelectorAll('[data-tilt]').forEach(el => {
       let r = null;
       const onMove = (ev) => {
@@ -812,16 +801,26 @@
     }, { rootMargin: "-40% 0px -55% 0px", threshold: 0.01 });
     sections.forEach(s => obs.observe(s));
 
-    // ===== WAITLIST (fallback now, automatic later) =====
+    // ===== WAITLIST AUTO SUBMIT (email + usecase) =====
     function hasAutoUrl(){
-      return PREFILL_FORMRESPONSE_URL && PREFILL_FORMRESPONSE_URL.includes("formResponse") && PREFILL_FORMRESPONSE_URL.includes("entry.");
+      return PREFILL_FORMRESPONSE_URL.includes("formResponse") && PREFILL_FORMRESPONSE_URL.includes("entry.");
     }
-    function buildAutoUrl(email){
-      // sostituisce il valore dopo il primo "=" con l'email
-      return PREFILL_FORMRESPONSE_URL.replace(/=([^&]*)/, "=" + encodeURIComponent(email));
+
+    // Replace specific entry values (safe & explicit)
+    function buildAutoUrl(email, usecase){
+      let url = PREFILL_FORMRESPONSE_URL;
+
+      // email entry id
+      url = url.replace(/(entry\.1137067838=)([^&]*)/i, `$1${encodeURIComponent(email)}`);
+
+      // usecase entry id
+      url = url.replace(/(entry\.1887625619=)([^&]*)/i, `$1${encodeURIComponent(usecase || "")}`);
+
+      return url;
     }
-    function sendAuto(email){
-      const url = buildAutoUrl(email);
+
+    function sendAuto(email, usecase){
+      const url = buildAutoUrl(email, usecase);
       const ifr = document.createElement("iframe");
       ifr.style.display = "none";
       ifr.src = url;
@@ -829,43 +828,46 @@
       setTimeout(() => { try { ifr.remove(); } catch(e){} }, 4000);
     }
 
-    function hookForm(formId, emailId, msgId){
+    function hookForm(formId, emailId, usecaseId, msgId){
       const form = document.getElementById(formId);
       const emailEl = document.getElementById(emailId);
+      const usecaseEl = document.getElementById(usecaseId);
       const msg = document.getElementById(msgId);
       if(!form || !emailEl || !msg) return;
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        const val = (emailEl.value || "").trim();
-        if(!val){
+        const email = (emailEl.value || "").trim();
+        const usecase = usecaseEl ? (usecaseEl.value || "").trim() : "";
+
+        if(!email){
           msg.textContent = "Inserisci una email valida.";
           return;
         }
 
         msg.textContent = "Perfetto. Ti stiamo registrando… ✅";
 
-        // AUTOMATICO (quando avremo il link giusto)
         if(hasAutoUrl()){
           try{
-            sendAuto(val);
+            sendAuto(email, usecase);
             msg.textContent = "Perfetto. Sei dentro ✅ Ti scriveremo appena apriamo la beta.";
             emailEl.value = "";
+            if(usecaseEl) usecaseEl.value = "";
             return;
           } catch(err){
             console.error(err);
           }
         }
 
-        // FALLBACK: apre il form (sempre funzionante)
+        // Fallback (shouldn't happen now)
         msg.textContent = "Quasi fatto ✅ si apre il modulo: invia per completare l’iscrizione.";
         window.open(FORM_PUBLIC_URL, "_blank", "noopener,noreferrer");
       });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      hookForm("waitlistForm", "email", "formMsg");
-      hookForm("waitlistForm2", "email2", "formMsg2");
+      hookForm("waitlistForm", "email", "usecase", "formMsg");
+      hookForm("waitlistForm2", "email2", "usecase2", "formMsg2");
     });
   </script>
 </body>
