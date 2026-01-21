@@ -2,21 +2,33 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Aegis-GuardianAI | Chiarezza, sicurezza, presenza</title>
-  <meta name="description" content="Aegis-GuardianAI è un assistente AI human-first progettato per aiutarti a navigare online con più sicurezza, chiarezza e fiducia.">
+  <meta name="description" content="Aegis-GuardianAI è un assistente AI human-first per aiutarti a navigare online con più sicurezza, chiarezza e fiducia.">
 
   <link rel="icon" href="./assets/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="./assets/favicon.png">
 
   <style>
+    /* ===== reset + base ===== */
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; overflow-x:hidden; }
+    html{ scroll-behavior:smooth; }
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", "Noto Sans";
+      color:var(--text);
+      background:linear-gradient(140deg,var(--bg0),var(--bg1),var(--bg2));
+      min-height:100vh;
+    }
+
     :root{
-      --bg0:#0a0f24; --bg1:#161b3a; --bg2:#1b2b52;
+      --bg0:#0a0f24; --bg1:#141a39; --bg2:#182a55;
       --card:rgba(255,255,255,0.075);
+      --card2:rgba(255,255,255,0.055);
       --cardBorder:rgba(255,255,255,0.14);
-      --text:#fff;
+      --text:#ffffff;
       --muted:rgba(219,232,255,0.88);
-      --muted2:rgba(188,220,255,0.78);
+      --muted2:rgba(188,220,255,0.74);
       --link:rgba(205,224,255,0.92);
       --accentA:#6a5cff; --accentB:#0ea5e9;
       --shadow:rgba(0,0,0,0.38);
@@ -25,13 +37,14 @@
       --chipBg:rgba(255,255,255,0.09);
       --chipBorder:rgba(255,255,255,0.14);
       --ring:rgba(255,255,255,0.14);
-      --lift:-8px; --press:0.985;
+      --lift:-8px;
       --mx:0px; --my:0px;
     }
     [data-theme="light"]{
       --bg0:#eef2ff; --bg1:#e9f7ff; --bg2:#ffffff;
       --card:rgba(255,255,255,0.86);
-      --cardBorder:rgba(17,24,39,0.10);
+      --card2:rgba(255,255,255,0.78);
+      --cardBorder:rgba(2,6,23,0.10);
       --text:#0b1220;
       --muted:rgba(11,18,32,0.76);
       --muted2:rgba(11,18,32,0.62);
@@ -42,52 +55,25 @@
       --chipBg:rgba(255,255,255,0.72);
       --chipBorder:rgba(2,6,23,0.10);
       --ring:rgba(2,6,23,0.10);
-
     }
-#top{
-  height:0;
-  padding:0;
-  margin:0;
-}
 
-    *{box-sizing:border-box} 
-    html, body { overflow-x: hidden; }
-    html{scroll-behavior:smooth}
-    body{
+    /* ===== top anchor (FIX spazio vuoto) ===== */
+    #top{
+      height:0;
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", "Noto Sans";
-      color:var(--text);
-      overflow-x:hidden;
-      background:linear-gradient(140deg,var(--bg0),var(--bg1),var(--bg2));
-      min-height:100vh;
+      padding:0;
     }
-    section{
-      scroll-margin-top: 92px;
-      max-width:1120px;
-      margin:0 auto;
-      padding:92px 18px;
-    }
-    .hero{padding-top:76px; text-align:center;}
 
-    /* Background */
-    .bgWrap{
-  left:0; right:0;
-  width:100vw;
-  overflow:hidden;
-}
-
-.orb{
-  max-width:100vw;
-}
-    .bgWrap{position:fixed; inset:0; z-index:-5; pointer-events:none; overflow:hidden;}
+    /* ===== background premium ===== */
+    .bgWrap{ position:fixed; inset:0; z-index:-5; pointer-events:none; overflow:hidden; }
     .mesh{
       position:absolute; inset:-20%;
       background:
-        radial-gradient(circle at 20% 20%, rgba(106,92,255,0.26), transparent 45%),
-        radial-gradient(circle at 80% 30%, rgba(14,165,233,0.22), transparent 45%),
+        radial-gradient(circle at 20% 20%, rgba(106,92,255,0.28), transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(14,165,233,0.24), transparent 45%),
         radial-gradient(circle at 55% 75%, rgba(255,255,255,0.10), transparent 55%),
         radial-gradient(circle at 35% 60%, rgba(106,92,255,0.16), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(14,165,233,0.14), transparent 55%);
+        radial-gradient(circle at 70% 70%, rgba(14,165,233,0.15), transparent 55%);
       filter: blur(70px) saturate(1.15);
       opacity:0.95;
       transform: translate(calc(var(--mx) * 0.6), calc(var(--my) * 0.6)) scale(1.06);
@@ -95,9 +81,9 @@
       will-change: transform;
     }
     @keyframes meshShift{
-      0%{transform: translate(calc(var(--mx) * 0.45), calc(var(--my) * 0.45)) scale(1.03);}
-      50%{transform: translate(calc(var(--mx) * 0.75), calc(var(--my) * 0.75)) scale(1.10);}
-      100%{transform: translate(calc(var(--mx) * 0.45), calc(var(--my) * 0.45)) scale(1.03);}
+      0%{transform: translate(calc(var(--mx) * 0.45), calc(var(--my) * 0.45)) scale(1.03) rotate(0deg);}
+      50%{transform: translate(calc(var(--mx) * 0.75), calc(var(--my) * 0.75)) scale(1.10) rotate(2deg);}
+      100%{transform: translate(calc(var(--mx) * 0.45), calc(var(--my) * 0.45)) scale(1.03) rotate(0deg);}
     }
     .orb{
       position:absolute; width:980px; height:980px; border-radius:999px;
@@ -105,6 +91,7 @@
       opacity:0.75;
       animation: orbFloat 22s ease-in-out infinite;
       will-change: transform;
+      max-width:100vw; /* anti overflow */
     }
     .orb.one{
       left:-320px; top:-360px;
@@ -120,6 +107,14 @@
                   radial-gradient(circle at 70% 65%, rgba(106,92,255,0.52), transparent 64%);
       transform: translate(calc(var(--mx) * -0.7), calc(var(--my) * -0.7));
     }
+    .orb.three{
+      left:36%; top:42%;
+      width:760px; height:760px;
+      opacity:0.30;
+      animation-duration:34s;
+      background: radial-gradient(circle at 50% 45%, rgba(255,255,255,0.22), transparent 64%);
+      transform: translate(calc(var(--mx) * 0.35), calc(var(--my) * 0.35));
+    }
     @keyframes orbFloat{
       0%{transform: translate3d(0,0,0) scale(1);}
       50%{transform: translate3d(0,0,0) scale(1.09);}
@@ -134,15 +129,27 @@
       background: radial-gradient(circle at 50% 35%, rgba(255,255,255,0.00), rgba(0,0,0,0.10) 72%);
       opacity:0.35;
     }
+    .noise{
+      position:fixed; inset:0; z-index:-3; pointer-events:none; opacity:0.045;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    }
 
+    /* ===== layout ===== */
+    section{
+      max-width:1120px;
+      margin:0 auto;
+      padding:92px 18px;
+      scroll-margin-top: 92px;
+    }
+    .hero{ padding-top:44px; text-align:center; } /* compatto (niente vuoto) */
+
+    /* ===== header/nav ===== */
     header{
       position:sticky; top:0; z-index:1000;
       backdrop-filter:blur(14px);
       background:var(--navBg);
       border-bottom:1px solid rgba(255,255,255,0.08);
     }
-    .navRight, nav { max-width: 100%; }
-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .nav{
       max-width:1120px;
       margin:0 auto;
@@ -154,7 +161,7 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       flex-wrap:wrap;
     }
     .brand{
-      display:flex; align-items:center; gap:10px; min-width:220px;
+      display:flex; align-items:center; gap:10px;
       text-decoration:none; color:inherit; cursor:pointer;
     }
     .brand img{
@@ -165,10 +172,10 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       border:1px solid rgba(255,255,255,0.18);
       background:rgba(255,255,255,0.06);
     }
-    .brand .name{font-weight:980; letter-spacing:0.2px; font-size:18px; line-height:1;}
+    .brand .name{ font-weight:980; letter-spacing:0.2px; font-size:18px; line-height:1; }
     .pill{
-      border:1px solid rgba(255,255,255,0.14);
-      background:rgba(255,255,255,0.09);
+      border:1px solid var(--chipBorder);
+      background:var(--chipBg);
       border-radius:999px;
       padding:8px 12px;
       font-weight:950;
@@ -176,8 +183,16 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       color:var(--muted);
       white-space:nowrap;
     }
-    .navRight{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
-    nav{display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; align-items:center;}
+    .navRight{
+      display:flex; gap:10px; align-items:center;
+      flex-wrap:wrap; justify-content:flex-end;
+      max-width:100%;
+    }
+    nav{
+      display:flex; gap:6px; flex-wrap:wrap;
+      justify-content:flex-end; align-items:center;
+      max-width:100%;
+    }
     nav a{
       color:var(--link);
       text-decoration:none;
@@ -191,13 +206,13 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       outline:none;
       display:inline-block;
     }
-    nav a:hover{background:rgba(255,255,255,0.08); transform:translateY(-1px); opacity:1;}
-    nav a.active{background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.14); opacity:1;}
-    nav a:focus-visible{box-shadow:0 0 0 4px var(--ring);}
+    nav a:hover{ background:rgba(255,255,255,0.08); transform:translateY(-1px); opacity:1; }
+    nav a.active{ background:rgba(255,255,255,0.10); border:1px solid var(--chipBorder); opacity:1; }
+    nav a:focus-visible{ box-shadow:0 0 0 4px var(--ring); }
 
     .themeBtn{
-      border:1px solid rgba(255,255,255,0.14);
-      background:rgba(255,255,255,0.09);
+      border:1px solid var(--chipBorder);
+      background:var(--chipBg);
       color:var(--text);
       border-radius:14px;
       padding:10px 12px;
@@ -211,17 +226,18 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       outline:none;
       user-select:none;
     }
-    .themeBtn:hover{transform:translateY(-1px);}
-    .themeBtn:focus-visible{box-shadow:0 0 0 4px var(--ring);}
+    .themeBtn:hover{ transform:translateY(-1px); }
+    .themeBtn:focus-visible{ box-shadow:0 0 0 4px var(--ring); }
 
+    /* ===== hero typography ===== */
     .kicker{
       display:inline-block;
       margin-top:12px;
       margin-bottom:18px;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.14);
-      background:rgba(255,255,255,0.09);
+      border:1px solid var(--chipBorder);
+      background:var(--chipBg);
       color:var(--muted);
       font-weight:980;
       font-size:12px;
@@ -257,21 +273,38 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       transition:opacity .35s ease;
     }
 
+    /* ===== cards + hover ===== */
     .card{
       border-radius:18px;
       background:var(--card);
       border:1px solid var(--cardBorder);
       box-shadow:0 22px 70px var(--shadow);
       position:relative;
+      transform:translate3d(0,0,0);
       transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
       will-change:transform;
     }
     .hoverFx:hover{
-      transform: translateY(-8px);
+      transform: translateY(var(--lift));
       box-shadow: 0 30px 90px var(--shadow);
       border-color: color-mix(in srgb, var(--accentB) 18%, var(--cardBorder));
     }
+    .hoverFx::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:18px;
+      pointer-events:none;
+      opacity:0;
+      transition:opacity .18s ease;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(14,165,233,0.18), transparent 60%),
+        radial-gradient(circle at 70% 80%, rgba(106,92,255,0.14), transparent 62%);
+      mix-blend-mode:screen;
+    }
+    .hoverFx:hover::after{ opacity:1; }
 
+    /* ===== hero layout ===== */
     .heroRow{
       margin-top:34px;
       display:grid;
@@ -284,11 +317,13 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       padding:18px 18px 16px;
       max-width:560px;
       justify-self:center;
+      align-self:start;
     }
-    .betaCard h3{margin:0 0 8px; font-size:17px; font-weight:990;}
-    .betaCard p{margin:0 0 12px; color:var(--muted); line-height:1.62; font-weight:760; font-size:14px;}
+    .betaCard h3{ margin:0 0 8px; font-size:17px; font-weight:990; letter-spacing:-0.2px; }
+    .betaCard p{ margin:0 0 12px; color:var(--muted); line-height:1.62; font-weight:760; font-size:14px; }
 
-    .emailBox{margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    /* ===== inputs ===== */
+    .emailBox{ margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .emailBox input{
       width:220px;
       padding:11px 12px;
@@ -296,31 +331,24 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       border:1px solid rgba(255,255,255,0.14);
       background:var(--inputBg);
       color:var(--text);
+      caret-color: var(--text);
       font-weight:750;
       font-size:14px;
       outline:none;
     }
     .emailBox input[type="text"]{ width:320px; }
-    .emailBox input:focus-visible{box-shadow:0 0 0 4px var(--ring);}
-/* Testo di suggerimento (placeholder) più leggibile */
-.emailBox input::placeholder{
-  color: color-mix(in srgb, var(--text) 60%, transparent);
-  opacity: 1;
-}
-
-/* Colore del cursore */
-.emailBox input{
-  caret-color: var(--text);
-}
-
-/* Evita colori brutti quando Chrome suggerisce l’email */
-.emailBox input:-webkit-autofill,
-.emailBox input:-webkit-autofill:hover,
-.emailBox input:-webkit-autofill:focus{
-  -webkit-text-fill-color: var(--text);
-  transition: background-color 9999s ease-in-out 0s;
-  box-shadow: 0 0 0px 1000px var(--inputBg) inset;
-}
+    .emailBox input:focus-visible{ box-shadow:0 0 0 4px var(--ring); }
+    .emailBox input::placeholder{
+      color: color-mix(in srgb, var(--text) 60%, transparent);
+      opacity: 1;
+    }
+    .emailBox input:-webkit-autofill,
+    .emailBox input:-webkit-autofill:hover,
+    .emailBox input:-webkit-autofill:focus{
+      -webkit-text-fill-color: var(--text);
+      transition: background-color 9999s ease-in-out 0s;
+      box-shadow: 0 0 0px 1000px var(--inputBg) inset;
+    }
 
     .btn{
       border:0;
@@ -334,12 +362,18 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       min-width:160px;
       white-space:nowrap;
       box-shadow:0 18px 45px color-mix(in srgb, var(--accentB) 28%, transparent);
+      transition:transform .15s ease, filter .15s ease;
+      outline:none;
     }
-    .subNote{margin-top:8px; color:var(--muted2); font-size:12.5px; font-weight:780;}
+    .btn:hover{ transform:translateY(-1px); filter:brightness(1.06); }
+    .btn:active{ transform:translateY(0) scale(0.985); }
+    .btn:focus-visible{ box-shadow:0 0 0 4px var(--ring), 0 18px 45px color-mix(in srgb, var(--accentB) 28%, transparent); }
+    .subNote{ margin-top:8px; color:var(--muted2); font-size:12.5px; font-weight:780; }
 
-    .mascotWrap{padding:20px 22px 18px; overflow:hidden;}
-    .mascotTitle{font-weight:990; margin:0 0 10px; font-size:16px;}
-    .mascotDesc{margin:0 0 14px; color:var(--muted); line-height:1.6; font-weight:770; font-size:14px;}
+    /* ===== mascot box ===== */
+    .mascotWrap{ padding:20px 22px 18px; overflow:hidden; background:var(--card2); }
+    .mascotTitle{ font-weight:990; margin:0 0 10px; font-size:16px; letter-spacing:-0.2px; }
+    .mascotDesc{ margin:0 0 14px; color:var(--muted); line-height:1.6; font-weight:770; font-size:14px; }
     .mascotGlow{
       position:absolute; inset:-40px;
       background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--accentB) 30%, transparent), transparent 60%);
@@ -361,20 +395,39 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       user-select:none;
     }
 
-    .sectionTitle{text-align:center; font-size:clamp(26px,3vw,38px); font-weight:990; margin:0;}
-    .sectionLead{text-align:center; max-width:920px; margin:14px auto 0; color:var(--muted); line-height:1.72; font-weight:770;}
-    .grid3{margin-top:34px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
-    .mini{padding:18px; border-radius:16px; background:var(--card); border:1px solid var(--cardBorder);}
-    .mini h4{margin:0 0 8px; font-weight:990; font-size:16px;}
-    .mini p{margin:0; color:var(--muted); font-weight:770; line-height:1.65; font-size:14px;}
+    /* ===== sections ===== */
+    .sectionTitle{ text-align:center; font-size:clamp(26px,3vw,38px); font-weight:990; margin:0; letter-spacing:-0.4px; }
+    .sectionLead{ text-align:center; max-width:920px; margin:14px auto 0; color:var(--muted); line-height:1.72; font-weight:770; }
+    .grid3{ margin-top:34px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .mini{
+      padding:18px;
+      border-radius:16px;
+      background:var(--card2);
+      border:1px solid var(--cardBorder);
+      box-shadow:0 18px 50px rgba(0,0,0,0.12);
+    }
+    .mini h4{ margin:0 0 8px; font-weight:990; font-size:16px; letter-spacing:-0.2px; }
+    .mini p{ margin:0; color:var(--muted); font-weight:770; line-height:1.65; font-size:14px; }
 
-    .split{margin-top:28px; display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-    .split .card{padding:22px;}
-    .quote{font-weight:990; font-size:18px; margin:0 0 12px;}
-    .qText{margin:0; color:var(--muted); line-height:1.75; font-weight:770;}
+    .split{ margin-top:28px; display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:stretch; }
+    .split .card{ padding:22px; }
+    .quote{ font-weight:990; font-size:18px; letter-spacing:-0.2px; margin:0 0 12px; }
+    .qText{ margin:0; color:var(--muted); line-height:1.75; font-weight:770; }
+    .qBy{ margin-top:14px; color:var(--muted2); font-weight:900; font-size:13px; }
 
-    .joinGrid{margin-top:22px; display:grid; grid-template-columns:1.15fr 0.85fr; gap:16px;}
-    .joinLeft,.joinRight{padding:22px;}
+    details{
+      background:var(--card2);
+      border:1px solid var(--cardBorder);
+      border-radius:16px;
+      padding:14px 16px;
+    }
+    details + details{ margin-top:10px; }
+    summary{ cursor:pointer; font-weight:980; letter-spacing:-0.15px; outline:none; }
+    summary:focus-visible{ box-shadow:0 0 0 4px var(--ring); border-radius:12px; }
+    details p{ margin:10px 0 0; color:var(--muted); font-weight:770; line-height:1.7; }
+
+    .joinGrid{ margin-top:22px; display:grid; grid-template-columns:1.15fr 0.85fr; gap:16px; align-items:stretch; }
+    .joinLeft,.joinRight{ padding:22px; }
     .miniTrust{
       margin-top:10px;
       padding:14px;
@@ -387,34 +440,62 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       font-size:14px;
     }
 
-    footer{padding:60px 18px; max-width:1120px; margin:0 auto; color:var(--muted2); text-align:center; font-weight:770;}
+    footer{
+      padding:60px 18px;
+      max-width:1120px;
+      margin:0 auto;
+      color:var(--muted2);
+      text-align:center;
+      font-weight:770;
+    }
 
+    /* ===== mobile adjustments ===== */
     @media (max-width: 980px){
-      .pill{display:none}
-      .heroRow{grid-template-columns:1fr}
-      .grid3{grid-template-columns:1fr}
-      .split{grid-template-columns:1fr}
-      .joinGrid{grid-template-columns:1fr}
-      .emailBox input{width:min(360px,100%)}
-      .emailBox input[type="text"]{width:min(520px,100%)}
+      section{ padding:74px 16px; scroll-margin-top: 102px; }
+      .nav{ padding:10px 14px; }
+      .pill{ display:none; }
+      .heroRow{ grid-template-columns:1fr; }
+      .grid3{ grid-template-columns:1fr; }
+      .split{ grid-template-columns:1fr; }
+      .joinGrid{ grid-template-columns:1fr; }
+      .emailBox input{ width:min(360px,100%); }
+      .emailBox input[type="text"]{ width:min(520px,100%); }
+      nav{ gap:4px; }
+      nav a{ padding:9px 9px; }
     }
   </style>
 </head>
 
 <body data-theme="dark">
-  <section id="top"></div>
+  <!-- top anchor invisibile (NON crea spazio) -->
+  <div id="top"></div>
 
   <div class="bgWrap">
     <div class="mesh"></div>
     <div class="orb one"></div>
     <div class="orb two"></div>
+    <div class="orb three"></div>
     <div class="vignette"></div>
   </div>
+  <div class="noise"></div>
 
   <header>
     <div class="nav">
-      <a href="#top" class="brand">
-        <img src="./assets/logo.png" alt="Aegis logo">
+      <a href="#top" class="brand" aria-label="Torna su">
+        <img src="./assets/logo.png" alt="Aegis-GuardianAI logo"
+             onerror="this.style.display='none'; const fb=document.getElementById('fallbackLogo'); if(fb) fb.style.display='inline-flex';" />
+        <span id="fallbackLogo" style="display:none;align-items:center;justify-content:center;height:34px;width:34px;border-radius:12px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);box-shadow:0 12px 30px var(--shadow);">
+          <svg width="18" height="18" viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="var(--accentA)"/>
+                <stop offset="1" stop-color="var(--accentB)"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#lg)" d="M50 10 L85 35 L70 85 L30 85 L15 35 Z"/>
+          </svg>
+        </span>
+
         <div class="name">Aegis-GuardianAI</div>
         <div class="pill">Safe · Human · Clear</div>
       </a>
@@ -427,8 +508,10 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
           <a href="#faq">FAQ</a>
           <a href="#join">Entra</a>
         </nav>
-        <button class="themeBtn" id="themeBtn" type="button" aria-label="Toggle theme">
-          <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
+
+        <button class="themeBtn" id="themeBtn" type="button" aria-label="Cambia tema">
+          <span id="themeIcon">🌙</span>
+          <span id="themeText">Dark</span>
         </button>
       </div>
     </div>
@@ -437,6 +520,7 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   <section class="hero">
     <div class="kicker">La tecnologia dovrebbe proteggerti, non confonderti.</div>
     <h1>Chiarezza. Sicurezza. Presenza.</h1>
+
     <p class="lead">
       Aegis-GuardianAI è un assistente costruito per farti sentire al sicuro online:
       ti aiuta a riconoscere rischi, evitare trappole e scegliere con lucidità —
@@ -454,6 +538,7 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
           <input id="usecase" type="text" placeholder="In quale situazione ti serve? (opzionale)" />
           <button class="btn" type="submit">Unisciti alla lista</button>
         </form>
+
         <div class="subNote" id="formMsg">Privacy-first: useremo la tua email solo per la beta.</div>
       </div>
 
@@ -461,7 +546,7 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         <div class="mascotGlow"></div>
         <div class="mascotTitle">Ecco Aegis 🛡️</div>
         <p class="mascotDesc">Calmo, chiaro, affidabile. Ti avvisa quando qualcosa non torna e ti spiega il perché.</p>
-        <img class="mascotImg" src="./assets/mascot.png" alt="Aegis mascot">
+        <img class="mascotImg" src="./assets/mascot.png" alt="Mascotte Aegis">
       </div>
     </div>
   </section>
@@ -471,9 +556,18 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     <p class="sectionLead">Semplice, veloce, umano. Tu resti al comando.</p>
 
     <div class="grid3">
-      <div class="mini hoverFx"><h4>1) Incolla</h4><p>Un link o una situazione: in pochi secondi hai chiarezza.</p></div>
-      <div class="mini hoverFx"><h4>2) Analizza</h4><p>Controlli e segnali per evitare trappole e abusi.</p></div>
-      <div class="mini hoverFx"><h4>3) Protegge</h4><p>Azioni consigliate, spiegate bene. Senza panico.</p></div>
+      <div class="mini hoverFx">
+        <h4>1) Incolla</h4>
+        <p>Un link o una situazione: in pochi secondi hai chiarezza.</p>
+      </div>
+      <div class="mini hoverFx">
+        <h4>2) Analizza</h4>
+        <p>Controlli e segnali per evitare trappole e abusi.</p>
+      </div>
+      <div class="mini hoverFx">
+        <h4>3) Protegge</h4>
+        <p>Azioni consigliate, spiegate bene. Senza panico.</p>
+      </div>
     </div>
   </section>
 
@@ -485,10 +579,12 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       <div class="card hoverFx">
         <div class="quote">“Niente manipolazione. Solo chiarezza.”</div>
         <p class="qText">Aegis-GuardianAI è progettato per essere calmo, onesto e spiegabile.</p>
+        <div class="qBy">— Human-first design</div>
       </div>
       <div class="card hoverFx">
         <div class="quote">Privacy-first</div>
         <p class="qText">La lista d’attesa serve solo per invitarti alla beta. Minimizzazione dati.</p>
+        <div class="qBy">— Dati essenziali</div>
       </div>
     </div>
   </section>
@@ -509,9 +605,18 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     <p class="sectionLead">Risposte chiare alle domande che contano.</p>
 
     <div style="margin-top:26px;">
-      <details class="mini"><summary>Salvate i miei dati?</summary><p>No: per ora raccogliamo solo email e, se vuoi, una frase.</p></details>
-      <details class="mini"><summary>Quando esce la beta?</summary><p>Apriamo a piccoli gruppi. Ti scriveremo appena ci sono posti.</p></details>
-      <details class="mini"><summary>È adatto a famiglie?</summary><p>Sì: è progettato per essere calmo, comprensibile e “family-friendly”.</p></details>
+      <details>
+        <summary>Salvate i miei dati?</summary>
+        <p>No: per ora raccogliamo solo email e, se vuoi, una frase. Niente tracking invasivo.</p>
+      </details>
+      <details>
+        <summary>Quando esce la beta?</summary>
+        <p>Apriamo a piccoli gruppi. Ti scriveremo appena ci sono posti disponibili.</p>
+      </details>
+      <details>
+        <summary>È adatto anche a chi non è tecnico?</summary>
+        <p>Sì: è costruito per essere calmo, comprensibile e “family-friendly”.</p>
+      </details>
     </div>
   </section>
 
@@ -549,16 +654,23 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   </footer>
 
   <script>
-    // ====== YOUR GOOGLE FORMS ======
-    const FORM_PUBLIC_URL = "https://docs.google.com/forms/d/e/1FAIpQLSemWBEYm-n6oSh0CGsA7HALHf2O86HNl29uxxemn_NBoycttQ/viewform?usp=dialog";
+    /* ============================
+       Google Forms: incolla i tuoi URL
+       ============================ */
+    const FORM_PUBLIC_URL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSemWBEYm-n6oSh0CGsA7HALHf2O86HNl29uxxemn_NBoycttQ/viewform?usp=dialog";
+
     const PREFILL_FORMRESPONSE_URL =
       "https://docs.google.com/forms/d/e/1FAIpQLSemWBEYm-n6oSh0CGsA7HALHf2O86HNl29uxxemn_NBoycttQ/formResponse?usp=pp_url&entry.1137067838=test.test@gmail.com&entry.1887625619=mi+protegga+dai+link+che+mi+rubano+soldi+";
 
-    // Theme
+    /* ============================
+       Theme toggle
+       ============================ */
     const body = document.body;
     const btn = document.getElementById('themeBtn');
     const icon = document.getElementById('themeIcon');
     const text = document.getElementById('themeText');
+
     function applyTheme(theme){
       body.setAttribute('data-theme', theme);
       const isLight = theme === 'light';
@@ -567,15 +679,18 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       localStorage.setItem('aegis_theme', theme);
     }
     applyTheme(localStorage.getItem('aegis_theme') || 'dark');
+
     btn.addEventListener('click', () => {
       const current = body.getAttribute('data-theme');
       applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
-    // Background parallax (light)
+    /* ============================
+       Background parallax (safe)
+       ============================ */
     let raf = null;
     window.addEventListener('mousemove', (e) => {
-      if(raf) return;
+      if (raf) return;
       raf = requestAnimationFrame(() => {
         const x = (e.clientX / window.innerWidth - 0.5) * 24;
         const y = (e.clientY / window.innerHeight - 0.5) * 24;
@@ -585,7 +700,9 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       });
     });
 
-    // Tagline rotation
+    /* ============================
+       Tagline rotation
+       ============================ */
     const tagline = document.getElementById('tagline');
     const lines = [
       "Un’AI che ti rispetta. Sempre.",
@@ -606,9 +723,12 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     setTag();
     setInterval(setTag, 4200);
 
-    // Nav active highlight
+    /* ============================
+       Nav active highlight
+       ============================ */
     const navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
     const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if(entry.isIntersecting){
@@ -619,18 +739,23 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         }
       });
     }, { rootMargin: "-40% 0px -55% 0px", threshold: 0.01 });
+
     sections.forEach(s => obs.observe(s));
 
-    // Waitlist auto submit
+    /* ============================
+       Waitlist auto submit
+       ============================ */
     function hasAutoUrl(){
       return PREFILL_FORMRESPONSE_URL.includes("formResponse") && PREFILL_FORMRESPONSE_URL.includes("entry.");
     }
+
     function buildAutoUrl(email, usecase){
       let url = PREFILL_FORMRESPONSE_URL;
       url = url.replace(/(entry\.1137067838=)([^&]*)/i, `$1${encodeURIComponent(email)}`);
       url = url.replace(/(entry\.1887625619=)([^&]*)/i, `$1${encodeURIComponent(usecase || "")}`);
       return url;
     }
+
     function sendAuto(email, usecase){
       const url = buildAutoUrl(email, usecase);
       const ifr = document.createElement("iframe");
@@ -639,6 +764,7 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       document.body.appendChild(ifr);
       setTimeout(() => { try { ifr.remove(); } catch(e){} }, 4000);
     }
+
     function hookForm(formId, emailId, usecaseId, msgId){
       const form = document.getElementById(formId);
       const emailEl = document.getElementById(emailId);
@@ -650,11 +776,14 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         e.preventDefault();
         const email = (emailEl.value || "").trim();
         const usecase = usecaseEl ? (usecaseEl.value || "").trim() : "";
+
         if(!email){
           msg.textContent = "Inserisci una email valida.";
           return;
         }
+
         msg.textContent = "Perfetto. Ti stiamo registrando… ✅";
+
         if(hasAutoUrl()){
           try{
             sendAuto(email, usecase);
@@ -662,14 +791,16 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
             emailEl.value = "";
             if(usecaseEl) usecaseEl.value = "";
             return;
-          } catch(err){
+          }catch(err){
             console.error(err);
           }
         }
+
         msg.textContent = "Quasi fatto ✅ si apre il modulo: invia per completare l’iscrizione.";
         window.open(FORM_PUBLIC_URL, "_blank", "noopener,noreferrer");
       });
     }
+
     document.addEventListener("DOMContentLoaded", () => {
       hookForm("waitlistForm", "email", "usecase", "formMsg");
       hookForm("waitlistForm2", "email2", "usecase2", "formMsg2");
@@ -677,6 +808,3 @@ nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   </script>
 </body>
 </html>
-
-
-
