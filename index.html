@@ -50,7 +50,8 @@
   margin:0;
 }
 
-    *{box-sizing:border-box}
+    *{box-sizing:border-box} 
+    html, body { overflow-x: hidden; }
     html{scroll-behavior:smooth}
     body{
       margin:0;
@@ -69,6 +70,15 @@
     .hero{padding-top:76px; text-align:center;}
 
     /* Background */
+    .bgWrap{
+  left:0; right:0;
+  width:100vw;
+  overflow:hidden;
+}
+
+.orb{
+  max-width:100vw;
+}
     .bgWrap{position:fixed; inset:0; z-index:-5; pointer-events:none; overflow:hidden;}
     .mesh{
       position:absolute; inset:-20%;
@@ -131,6 +141,8 @@
       background:var(--navBg);
       border-bottom:1px solid rgba(255,255,255,0.08);
     }
+    .navRight, nav { max-width: 100%; }
+nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .nav{
       max-width:1120px;
       margin:0 auto;
@@ -665,5 +677,6 @@
   </script>
 </body>
 </html>
+
 
 
